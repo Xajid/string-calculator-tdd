@@ -11,8 +11,12 @@ export function add(numbers: string): number {
         numbersPart = parts[1] || '';
     }
 
-    return numbersPart
-        .split(delimiter)
-        .map(Number)
-        .reduce((sum, n) => sum + n, 0);
+    const nums = numbersPart.split(delimiter).map(Number);
+    const negatives = nums.filter(n => n < 0);
+
+    if (negatives.length > 0) {
+        throw new Error(`negative numbers not allowed ${negatives.join(',')}`);
+    }
+
+    return nums.reduce((sum, n) => sum + n, 0);
 }
